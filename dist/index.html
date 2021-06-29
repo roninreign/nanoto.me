@@ -1,0 +1,60 @@
+<!doctype html>
+<html>
+
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <meta name="description" content="Get QR code for your nano Address">
+  <title>NanoTo.me</title>
+
+</head>
+
+<body>
+  <div class="px-4 py-2 my-4 text-center">
+    <img src="/assets/images/nano.svg" width="150px" class="img-fluid" alt="My Happy SVG" />
+    <h1 class="display-5 fw-bold" id='labelTarget'></h1>
+    <h3 class="fw-bold" id='amountTarget'></h3>
+    <div class="col-lg-6 mx-auto">
+      <div class="hideTarget">
+        <p class="lead mb-4">Enter a nano address, get its QR code. Scan to pay.</p>
+
+        <div class="d-grid gap-2 d-sm-flex justify-content-sm-center ">
+          <input class='form-control' type='text' id='address' placeholder="Nano address starting with nano_" />
+        </div>
+        <div class="row mt-4">
+          <div class="col-12 mx-auto">
+            <input class='form-control' type='number' id='amount' placeholder="Amount in Nano (Optional)" />
+          </div>
+          <div class="col-12 mt-4 mx-auto">
+            <input class='form-control' type='text' id='label' placeholder="Label (Optional)" />
+          </div>
+          <div class="col-12 mt-4 mx-auto">
+            <button id='generate' type="button" class="btn btn-primary btn-md px-4 gap-3">Display</button>
+          </div>
+        </div>
+      </div>
+
+      <p id='error' class="text-danger hideTarget"></p>
+      <div class="row text-center">
+
+        <div class="col-12">
+          <canvas title="Double-click me to change address/amount" id="canvas"></canvas>
+          <p id='tooltip' style="display: none;">Double-click qr code to change address/amount. Click me to hide me.</p>
+        </div>
+
+        <div class='col-12'>
+          <a id='download' style="display:none">Download QR Code</a>
+        </div>
+
+      </div>
+
+      <h6 class="mt-4" id='logoSmall'> © nanoto.me</h6>
+<!-- 
+      <p><button id='hide' type="button" style="display:none" class="btn btn-primary btn-lg px-4 gap-3 hideTarget">Hide
+          Inputs</button></p> -->
+    </div>
+  </div>
+  <script src="./bundle.js"></script>
+</body>
+
+</html>
