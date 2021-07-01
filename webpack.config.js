@@ -1,12 +1,25 @@
 const path = require('path');
 
 module.exports = {
-    entry: './src/app.js',
-    watch: false,
+    // entry: './src/app.js',
+    entry : {
+        vendor : {
+            import :  "./src/vendor.js"
+        },
+        qr : {
+            import :  "./src/qr.js",
+            filename : "assets/js/qr.js"
+        },
+        watch : {
+            import :  "./src/watch.js",
+            filename : "assets/js/watch.js"
+        }
+    },
+    watch: true,
     watchOptions: {
         ignored: /node_modules/,
       },
-    mode: 'production',
+    mode: 'development',
     output: {
         filename: 'bundle.js',
         path: path.resolve(__dirname, 'dist')
