@@ -1,0 +1,66 @@
+<!doctype html>
+<html>
+
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <meta name="description" content="Watch any nano address for confirmations">
+  <title>NanoTo.me - Watch Address</title>
+</head>
+
+<body>
+
+
+  <div class="px-4 py-2 my-4 text-center">
+    <img src="/assets/images/nano.svg" width="150px" class="img-fluid" alt="My Happy SVG" />
+    <div class="col-lg-6 mx-auto">
+      <div class="hideTarget">
+        <p class="lead mb-4">Watch a nano address for confirmations.</p>
+
+        <div class="d-grid gap-2 d-sm-flex justify-content-sm-center ">
+          <input class='form-control' type='text' id='address' placeholder="Nano address starting with nano_" />
+        </div>
+        <div class="row mt-4">
+          <div class="col-12 mx-auto">
+            <input class='form-control' id='node' placeholder="Node Websocket Address" />
+          </div>
+          <div class="col-12 mt-4 mx-auto">
+            <button id='watch' type="button" class="btn btn-primary btn-md px-4 gap-3">Watch</button>
+          </div>
+        </div>
+      </div>
+
+      <p id='error' class="text-danger"></p>
+    </div>
+
+  </div>
+
+  <div class="row px-4">
+    <script id="item-template" type="x-tmpl-mustache">
+      <li class='row mb-4'>
+        <div class='col-sm-12 col-md-10'>
+          <p>
+            <a target="_blank" title="View hash on Nanocrawler.cc" href="https://nanocrawler.cc/explorer/block/{{ hash }}">
+            {{ account }}</a><br /><small
+              class="text-muted">{{ time }}</small></p>
+        </div>
+        <div class='col-sm-12 col-md-2'>{{ amount }} NANO</div>
+      </li>
+    </script>
+    <div class="col-sm-12 text-center">
+      <p id="status">Disconnected from node.</p>
+    </div>
+    <ul id='confirmations' class='col-lg-6 col-xs-12 mx-auto list-unstyled' style="word-wrap: break-word;">
+    </ul>
+  </div>
+
+  <div class='row text-center'>
+    <div class='col-md-12'>
+      <h6 class="mt-4" id='logoSmall'>© nanoto.me</h6>
+    </div>
+  </div>
+  <script src="./bundle.js"></script>
+  <script src="assets/js/watch.js"></script>
+</body>
+
+</html>
