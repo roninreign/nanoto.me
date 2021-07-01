@@ -56,11 +56,12 @@
             {{ account }}</a><br /><small
               class="text-muted">{{ time }}</small></p>
         </div>
-        <div class='col-sm-12 col-md-2'>{{ amount }} NANO</div>
+        <div class='col-sm-12 col-md-2'>{{ amount }} NANO <br/><small>{{ subtype }}</small></div>
       </li>
     </script>
     <div class="col-sm-12 text-center">
       <p id="status">Disconnected from node.</p>
+      <p class="text-muted">send: somebody sent nano to this address | receive: this address received the nano</p>
     </div>
     <ul id='confirmations' class='col-lg-6 col-xs-12 mx-auto list-unstyled' style="word-wrap: break-word;">
     </ul>

@@ -18,7 +18,6 @@ const watch = () => {
     }
 
     const renderRow = (data) => {
-
         const rendered = render(data);
         const confirmations = document.getElementById('confirmations');
         confirmations.innerHTML = rendered + confirmations.innerHTML;
@@ -31,6 +30,7 @@ const watch = () => {
         data.hash = message.message.hash;
         data.account = message.message.account;
         data.amount = rawToMega(message.message.amount);
+        data.subtype = message.message.block.subtype;
 
         return data;
     }
@@ -41,16 +41,14 @@ const watch = () => {
 
     const watch = (node, account) => {
         setStatus('Connecting to node...');
-
-        // console.log("watching", account, node);
         // Create a reconnecting WebSocket.
         // we wait a maximum of 5 seconds before retrying.
         const ws = new ReconnectingWebSocket(node, [], {
             WebSocket: WebSocket,
-            connectionTimeout: 1000,
-            maxRetries: 100000,
+            connectionTimeout: 10000,
+            maxRetries: 5,
             maxReconnectionDelay: 5000,
-            minReconnectionDelay: 10 // if not set, initial connection will take a few seconds by default
+            minReconnectionDelay: 500 // if not set, initial connection will take a few seconds by default
         });
 
         // As soon as we connect, subscribe to block confirmations
@@ -69,7 +67,7 @@ const watch = () => {
 
         // The node sent us a message
         ws.onmessage = msg => {
-            // console.log(msg.data);
+            console.log(msg.data);
             const data_json = JSON.parse(msg.data);
 
             if (data_json.topic === "confirmation") {
