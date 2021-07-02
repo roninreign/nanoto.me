@@ -2,13 +2,17 @@ import { WebSocket } from 'ws';
 import ReconnectingWebSocket from 'reconnecting-websocket';
 import Mustache from 'mustache';
 import { rawToMega } from 'nano-unit-converter';
+import { notice } from './notice';
 
 const watch = () => {
+
     //elements
     const accountEl = document.getElementById('address');
     const nodeEl = document.getElementById('node');
     const watchBtn = document.getElementById('watch');
     const status = document.getElementById('status');
+    const notificationsEl = document.getElementById('notifications');
+
     //template
     const template = document.getElementById('item-template').innerHTML;
     Mustache.parse(template);
@@ -72,11 +76,23 @@ const watch = () => {
 
             if (data_json.topic === "confirmation") {
                 console.log('Confirmed', data_json.message.hash);
+
+                //extract only what we need
                 const data = parseMessage(data_json);
+
+                //render the html
                 renderRow(data);
+
+                //send notification
+                if (notice.enabled()) {
+                    const messageString = data.subtype + ' | ' + data.time;
+
+                    // const icon = "https://natricon.com/api/v1/nano?address=" + data.account + "&format=png"
+                    
+                    notice.push(data.amount + " NANO", messageString);
+                }
             }
         };
-
     }
 
     watchBtn.addEventListener('click', () => {
@@ -85,6 +101,10 @@ const watch = () => {
 
         watch(node, account);
     });
+
+    notificationsEl.addEventListener('click',  notice.enable);
+
+
 }
 
 window.onload = watch;
