@@ -4,6 +4,7 @@ import QRCode from 'qrcode';
 import { megaToRaw } from 'nano-unit-converter';
 
 const qr = () => {
+
     //elements
     const canvas = document.getElementById('canvas')
     const label = document.getElementById('label');
@@ -15,9 +16,37 @@ const qr = () => {
     const hide = document.getElementById('hide');
     const logoSmall = document.getElementById('logoSmall');
     const tooltip = document.getElementById('tooltip');
+    const bookmark = document.getElementById('bookmark');
 
-    const showAmountInput = function () {
+    const checkIfSearchParamsExist = () => {
+    const searchParams = new URLSearchParams(window.location.search);
+    if(searchParams.has('label')){
+                label.value = searchParams.get('label');
+
+    }
+
+    if(searchParams.has('amount')){
+        amount.value = searchParams.get('amount');
+    }
+    if(searchParams.has('address')){
+        address.value = searchParams.get('address');
+        generate.dispatchEvent(new Event('click'));
+    }
+    }
+
+
+    const showAmountInput = () => {
         amount.style.display = 'inline-block';
+    }
+
+    const setBookmark = (address,label,amount) => {
+        const searchParams = new URLSearchParams();
+        searchParams.append("address",address);
+        searchParams.append("label",label);
+        searchParams.append("amount",amount);
+        bookmark.href = window.location + "?" +     searchParams.toString();
+        bookmark.style.display = 'inline-block';
+        console.log({searchParams});
     }
 
     function setDataURL(uri, name) {
@@ -27,7 +56,8 @@ const qr = () => {
         link.href = uri;
     }
 
-    const generateCode = function () {
+    const generateCode = () => {
+
         const nanoAddress = address.value;
         const storeLabel = label.value;
         const sAmount = amount.value.trim();
@@ -64,7 +94,7 @@ const qr = () => {
             // hide.style.display = 'inline-block';
             changeTitle();
             hideInput();
-
+            setBookmark(nanoAddress,storeLabel,sAmount);
 
         });
         tooltip.style.display = 'block';
@@ -120,6 +150,8 @@ const qr = () => {
     canvas.addEventListener('dblclick', showInput);
     amountTarget.addEventListener('dblclick', showInput);
     tooltip.addEventListener('click', hideTooltip);
+
+    checkIfSearchParamsExist();
 }
 
 window.onload = qr;
