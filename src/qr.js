@@ -17,6 +17,7 @@ const qr = () => {
     const logoSmall = document.getElementById('logoSmall');
     const tooltip = document.getElementById('tooltip');
     const bookmark = document.getElementById('bookmark');
+    const showAddress = document.getElementById('show-address');
 
     const checkIfSearchParamsExist = () => {
         const searchParams = new URLSearchParams(window.location.search);
@@ -102,6 +103,7 @@ const qr = () => {
             if (error) console.error(error);
 
             // hide.style.display = 'inline-block';
+            showAddress.innerHTML = nanoAddress;
             changeTitle();
             hideInput();
             setBookmark(nanoAddress,storeLabel,sAmount);
