@@ -12,6 +12,7 @@ const watch = () => {
     const watchBtn = document.getElementById('watch');
     const status = document.getElementById('status');
     const notificationsEl = document.getElementById('notifications');
+    const bookmark = document.getElementById('bookmark');
 
     //template
     const template = document.getElementById('item-template').innerHTML;
@@ -100,11 +101,32 @@ const watch = () => {
         const node = nodeEl.value;
 
         watch(node, account);
+        setBookmark(node, account);
     });
 
     notificationsEl.addEventListener('click',  notice.enable);
 
+    const setBookmark = (node, address) => {
+        const searchParams = new URLSearchParams();
+        searchParams.append("address",encodeURIComponent(address));
+        searchParams.append("node",encodeURIComponent(node));
+        bookmark.href = window.location + "?" +  searchParams.toString();
+        bookmark.style.display = 'inline-block';
+    }
 
+    const checkIfSearchParamsExist = () => {
+        const searchParams = new URLSearchParams(window.location.search);
+         if(searchParams.has('node')){
+            nodeEl.value = decodeURIComponent(searchParams.get('node'));
+        }
+        
+        if(searchParams.has('address')){
+            accountEl.value = decodeURIComponent(searchParams.get('address'));
+            watchBtn.dispatchEvent(new Event('click'));
+        }
+    }
+
+    checkIfSearchParamsExist();
 }
 
 window.onload = watch;
