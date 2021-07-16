@@ -19,19 +19,19 @@ const qr = () => {
     const bookmark = document.getElementById('bookmark');
 
     const checkIfSearchParamsExist = () => {
-    const searchParams = new URLSearchParams(window.location.search);
-    if(searchParams.has('label')){
-                label.value = searchParams.get('label');
+        const searchParams = new URLSearchParams(window.location.search);
+        if(searchParams.has('label')){
+            label.value = searchParams.get('label');
+        }
 
-    }
-
-    if(searchParams.has('amount')){
-        amount.value = searchParams.get('amount');
-    }
-    if(searchParams.has('address')){
-        address.value = searchParams.get('address');
-        generate.dispatchEvent(new Event('click'));
-    }
+        if(searchParams.has('amount')){
+            amount.value = searchParams.get('amount');
+        }
+        
+        if(searchParams.has('address')){
+            address.value = searchParams.get('address');
+            generate.dispatchEvent(new Event('click'));
+        }
     }
 
 
@@ -40,11 +40,21 @@ const qr = () => {
     }
 
     const setBookmark = (address,label,amount) => {
-        const searchParams = new URLSearchParams();
-        searchParams.append("address",address);
-        searchParams.append("label",label);
-        searchParams.append("amount",amount);
-        bookmark.href = window.location + "?" +     searchParams.toString();
+        const searchParams = new URLSearchParams(window.location.search);
+
+        if(!searchParams.has('address')){
+            searchParams.append("address",address);
+        }
+
+        if(!searchParams.has('label') && label){
+            searchParams.append("label",label);
+        }
+
+        if(!searchParams.has('amount') && amount){
+            searchParams.append("amount",amount);
+        }
+
+        bookmark.href = "/?" +     searchParams.toString();
         bookmark.style.display = 'inline-block';
         console.log({searchParams});
     }
