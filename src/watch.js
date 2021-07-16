@@ -1,3 +1,4 @@
+import isValid from 'nano-address-validator';
 import { WebSocket } from 'ws';
 import ReconnectingWebSocket from 'reconnecting-websocket';
 import Mustache from 'mustache';
@@ -13,6 +14,7 @@ const watch = () => {
     const status = document.getElementById('status');
     const notificationsEl = document.getElementById('notifications');
     const bookmark = document.getElementById('bookmark');
+    const error = document.getElementById('error');
 
     //template
     const template = document.getElementById('item-template').innerHTML;
@@ -45,6 +47,17 @@ const watch = () => {
     }
 
     const watch = (node, account) => {
+
+        if (!isValid(account)) {
+            error.innerHTML = "Invalid address";
+            return;
+        }
+
+        if(node.trim().length <= 5){
+            error.innerHTML = "Invalid node address";
+
+            return;
+        }
         setStatus('Connecting to node...');
         // Create a reconnecting WebSocket.
         // we wait a maximum of 5 seconds before retrying.
@@ -94,14 +107,17 @@ const watch = () => {
                 }
             }
         };
+        return true;
     }
 
     watchBtn.addEventListener('click', () => {
         const account = accountEl.value;
         const node = nodeEl.value;
 
-        watch(node, account);
+        const started = watch(node, account);
+        if(started){
         setBookmark(node, account);
+        }
     });
 
     notificationsEl.addEventListener('click',  notice.enable);
