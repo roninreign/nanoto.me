@@ -107,10 +107,17 @@ const watch = () => {
     notificationsEl.addEventListener('click',  notice.enable);
 
     const setBookmark = (node, address) => {
-        const searchParams = new URLSearchParams();
-        searchParams.append("address",encodeURIComponent(address));
-        searchParams.append("node",encodeURIComponent(node));
-        bookmark.href = window.location + "?" +  searchParams.toString();
+        const searchParams = new URLSearchParams(window.location.search);
+
+        if(!searchParams.has('address') || searchParams.get("address") !== address){
+            searchParams.set("address", encodeURIComponent(address));
+        }
+
+        if(!searchParams.has('node') || searchParams.get("node") !== node){
+            searchParams.set("node", encodeURIComponent(node));
+        }
+
+        bookmark.href = window.location.pathname + "?" +  searchParams.toString();
         bookmark.style.display = 'inline-block';
     }
 

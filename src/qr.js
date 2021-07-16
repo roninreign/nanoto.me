@@ -42,21 +42,21 @@ const qr = () => {
     const setBookmark = (address,label,amount) => {
         const searchParams = new URLSearchParams(window.location.search);
 
-        if(!searchParams.has('address')){
-            searchParams.append("address",address);
+        if(!searchParams.has('address') || searchParams.get("address") !== address){
+            searchParams.set("address",address);
         }
 
-        if(!searchParams.has('label') && label){
-            searchParams.append("label",label);
+        if(!searchParams.has('label') || searchParams.get("label") !== label){
+            searchParams.set("label",label);
         }
 
-        if(!searchParams.has('amount') && amount){
-            searchParams.append("amount",amount);
+        if(!searchParams.has('amount') || searchParams.get("amount") !== amount){
+            searchParams.set("amount",amount);
         }
 
-        bookmark.href = "/?" +     searchParams.toString();
+        bookmark.href = window.location.pathname + "?" +    searchParams.toString();
         bookmark.style.display = 'inline-block';
-        console.log({searchParams});
+
     }
 
     function setDataURL(uri, name) {
